@@ -19,7 +19,7 @@ class ExpandableRow extends Field implements \Laravel\Nova\Fields\Unfillable
         parent::__construct($name, $attribute, $resolveCallback);
 
         $this->onlyOnIndex();
-        
+
         return $this->withMeta([
             'toggleLabel' => 'Details',
         ]);
@@ -66,7 +66,7 @@ class ExpandableRow extends Field implements \Laravel\Nova\Fields\Unfillable
      *
      * @var array
      */
-    public function expandingData(array $dataArray)
+    public function expandingData(array|\Closure $dataArray)
     {
         return $this->withMeta([
             'expandingData' => $this->structureDataForPreview($dataArray),
@@ -97,10 +97,10 @@ class ExpandableRow extends Field implements \Laravel\Nova\Fields\Unfillable
             'toggleLabel' => $toggleLabel
         ]);
     }
-    
+
     /**
      * Show the warning icon
-     * 
+     *
      * @param string $icon
      * @param bool $shouldShowIcon
      *

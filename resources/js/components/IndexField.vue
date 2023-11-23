@@ -33,9 +33,8 @@
 
 
   <Teleport :to="to" v-if="isMounted">
-    <td :colspan="1" v-if="rowExpanded && resource"></td>
-    <td :colspan="columnCount - 1" v-if="rowExpanded && resource">
-      <div class="px-4">
+    <td :colspan="columnCount" v-if="rowExpanded && resource">
+      <div class="px-0">
         <div class="bg-white dark:bg-gray-800 rounded-b shadow pb-2 px-6 divide-y divide-gray-100 dark:divide-gray-700 opacity-40">
 
 
@@ -44,34 +43,16 @@
             :field="field" /> -->
 
 
-          <div class="flex flex-col md:flex-row -mx-6 px-6 py-2 md:py-0 space-y-2 md:space-y-0" :key="index"
+          <div class="flex flex-col md:flex-row px-6 py-2 md:py-0 space-y-2 md:space-y-0" :key="index"
             v-for="(field, index) in resource.fields" :index="index">
-            <div class="md:w-1/4 md:py-3 max-w-xs">
-              <h4 class="font-bold"><span>{{ field.name }}</span></h4>
-            </div>
-            <div class="md:w-3/4 md:py-3 break-all lg:break-words max-w-xl">
+            <div class="md:w-full md:py-3 break-all lg:break-words w-full">
               <div>
                 <div>
-
-                  <button v-for="value in field.value" type="button"
-                    class=" w-full flex items-center text-left rounded px-1 py-1 !cursor-default">
-                    <div class="flex items-center space-x-3">
-                      <div>
-                        <div class="text-xs font-semibold" v-html="value.display"></div>
-                      </div>
-                    </div>
-                  </button>
-
-                  <button v-if="!field.value.length" type="button"
-                    class=" w-full flex items-center text-left rounded px-1 py-1 !cursor-default">
-                    <div class="flex items-center space-x-3">
-                      <div>
-                        <p class="text-xs font-semibold">-</p>
-                      </div>
-                    </div>
-                  </button>
-
-
+                <div class="flex items-center space-x-3">
+                  <div>
+                    <div class="text-xs font-semibold" v-html="field.value"></div>
+                  </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -107,7 +88,7 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-    
+
       // Create a table row to teleport the expanded row to
       this.createTableRow();
     });
@@ -120,7 +101,7 @@ export default {
 
 
       // TODO: remove the column if moving trigger to actions
-      // const siblings = Array.from(tr.children);    
+      // const siblings = Array.from(tr.children);
       // const index = siblings.indexOf(td);
       // td.remove();
       // const th = tr.closest('table').querySelector('thead > tr');
@@ -133,12 +114,12 @@ export default {
 
       tr.insertAdjacentElement('afterend', this.trNext);
       this.to = this.trNext;
-      
+
 
       const actionItmes = tr.querySelector('.flex.items-center.justify-end.space-x-0.text-gray-400');
       this.toggleTeleportTarget = actionItmes;
 
-      
+
       this.isMounted = true;
 
     },
@@ -146,7 +127,7 @@ export default {
     toggleExpandedRow() {
       this.rowExpanded = !this.rowExpanded;
       this.trNext.classList.toggle('rowExpanded');
-      
+
       if (this.field.expandingData) {
         this.resource = {
           fields: [],
